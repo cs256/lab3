@@ -17,8 +17,30 @@ import Prelude hiding ( Monoid(..), elem, maximum, intersperse, transpose
 --------------------------------------------------------------------------------
 -- Recursive and higher-order functions
 
+-- solved using if/then/else
 elem :: Eq a => a -> [a] -> Bool
-elem = undefined
+elem x []     = False
+elem x (y:ys) = if x==y then True else elem x ys
+
+-- solved using guards
+elem' :: Eq a => a -> [a] -> Bool
+elem' x [] = False
+elem' x (y:ys)
+    | x==y      = True
+    | otherwise = elem' x ys
+
+-- solved using logical or
+elem'' :: Eq a => a -> [a] -> Bool
+elem'' x []     = False
+elem'' x (y:ys) = x==y || elem'' x ys
+
+-- solved using foldr
+elem''' :: Eq a => a -> [a] -> Bool
+elem''' x = foldr (\y r -> x==y || r) False
+
+-- solved using function composition
+elem'''' :: Eq a => a -> [a] -> Bool
+elem'''' x = not . null . filter (==x)
 
 maximum :: Ord a => [a] -> a
 maximum = undefined
